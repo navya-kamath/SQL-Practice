@@ -78,7 +78,8 @@ WHERE area BETWEEN 200000 AND 250000;
 SELECT name, continent, population
 FROM world;
 
-/* 15. Show the name for the countries that have a population of at least 200 million. 200 million is 200000000, there are eight zeros */
+/* 15. Show the name for the countries that have a population of at least 200 million. 200 million is 200000000, there are 
+eight zeros */
 SELECT name 
 FROM world
 WHERE population >= 200000000;
@@ -88,7 +89,8 @@ SELECT name, gdp/population
 FROM world
 WHERE population >= 200000000;
 
-/* 17. Show the name and population in millions for the countries of the continent 'South America'. Divide the population by 1000000 to get population in millions */
+/* 17. Show the name and population in millions for the countries of the continent 'South America'. Divide the population 
+by 1000000 to get population in millions */
 SELECT name, population/1000000
 FROM world
 WHERE continent ='South America';
@@ -109,12 +111,14 @@ SELECT name, population, area
 FROM world
 WHERE area > 3000000 OR population > 250000000;
 
-/* 21. Show the countries that are big by area (more than 3 million) or big by population (more than 250 million) but not both. Show name, population and area */
+/* 21. Show the countries that are big by area (more than 3 million) or big by population (more than 250 million) but not both. 
+Show name, population and area */
 SELECT name, population, area
 FROM world
 WHERE (population> 250000000 OR area>3000000) AND NOT (population> 250000000 AND area>3000000);
 
-/* 22. Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. Use the ROUND function to show the values to two decimal places */
+/* 22. Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. 
+Use the ROUND function to show the values to two decimal places */
 SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000,2)
 FROM world
 WHERE continent = 'South America';
@@ -124,7 +128,8 @@ SELECT name, capital
 FROM world
 WHERE LENGTH(name) = LENGTH(capital);
 
-/* 24. Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word */
+/* 24. Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital 
+are the same word */
 SELECT name, capital
 FROM world
 WHERE LEFT(name,1) = LEFT(capital,1) AND (name <> capital);
@@ -139,35 +144,42 @@ AND name LIKE '%o%'
 AND name LIKE '%u%'
 AND name NOT LIKE '% %';
 
+/* 26. Show the name and per-capita GDP for those countries with a GDP of at least one trillion (1000000000000; that is 12 zeros).
+Round this value to the nearest 1000.
+Show per-capita GDP for the trillion dollar countries to the nearest $1000.*/
+SELECT name, ROUND(gdp/population,-3)
+FROM world
+WHERE gdp >= 1000000000000;
+
 /* For the dataset nobel(yr, subject, winner) */
 
-/* 26. Change the query shown so that it displays Nobel prizes for 1950 */
+/* 27. Change the query shown so that it displays Nobel prizes for 1950 */
 SELECT yr, subject, winner
 FROM nobel
 WHERE yr = 1950;
 
-/* 27. Show who won the 1962 prize for literature */
+/* 28. Show who won the 1962 prize for literature */
 SELECT winner
 FROM nobel
 WHERE yr = 1962
 AND subject = 'literature';
 
-/* 28. Show the year and subject that won 'Albert Einstein' his prize */
+/* 29. Show the year and subject that won 'Albert Einstein' his prize */
 SELECT yr, subject
 FROM nobel
 WHERE winner = 'Albert Einstein';
 
-/* 29. Give the name of the 'peace' winners since the year 2000, including 2000 */
+/* 30. Give the name of the 'peace' winners since the year 2000, including 2000 */
 SELECT winner
 FROM nobel
 WHERE yr >= 2000 AND subject = 'peace';
 
-/* 30. Show all details (yr, subject, winner) of the literature prize winners for 1980 to 1989 inclusive */
+/* 31. Show all details (yr, subject, winner) of the literature prize winners for 1980 to 1989 inclusive */
 SELECT yr, subject, winner
 FROM nobel
 WHERE yr BETWEEN 1980 AND 1989 AND ( subject = 'literature');
 
-/* 31. Show all details of the presidential winners:
+/* 32. Show all details of the presidential winners:
 Theodore Roosevelt
 Thomas Woodrow Wilson
 Jimmy Carter
@@ -179,43 +191,44 @@ WHERE winner IN ('Theodore Roosevelt',
 'Jimmy Carter',
 'Barack Obama');
 
-/* 32. Show the winners with first name John */
+/* 33. Show the winners with first name John */
 SELECT winner
 FROM nobel
 WHERE winner LIKE 'John%';
 
-/* 33. Show the year, subject, and name of physics winners for 1980 together with the chemistry winners for 1984 */
+/* 34. Show the year, subject, and name of physics winners for 1980 together with the chemistry winners for 1984 */
 SELECT yr, subject, winner
 FROM nobel
 WHERE (subject = 'physics' AND yr =1980) OR (subject ='chemistry' AND yr = 1984);
 
-/* 34. Show the year, subject, and name of winners for 1980 excluding chemistry and medicine */
+/* 35. Show the year, subject, and name of winners for 1980 excluding chemistry and medicine */
 SELECT yr, subject, winner
 FROM nobel
 WHERE yr =1980 AND subject NOT IN ('chemistry','medicine');
 
-/* 35. Show year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) together with winners of a 'Literature' prize in a later year (after 2004, including 2004) */
+/* 36. Show year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) 
+together with winners of a 'Literature' prize in a later year (after 2004, including 2004) */
 SELECT yr, subject, winner
 FROM nobel
 WHERE (subject = 'medicine' AND yr < 1910) OR (subject ='literature' AND yr >= 2004);
 
-/* 36. Find all details of the prize won by PETER GRÜNBERG */
+/* 37. Find all details of the prize won by PETER GRÜNBERG */
 SELECT *
 FROM nobel
 WHERE winner = 'PETER GRÜNBERG';
 
-/* 37. Find all details of the prize won by EUGENE O'NEILL */
+/* 38. Find all details of the prize won by EUGENE O'NEILL */
 SELECT *
 FROM nobel
 WHERE winner = 'EUGENE O''NEILL';
 
-/* 38. List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order */
+/* 39. List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order */
 SELECT winner, yr, subject
 FROM nobel
 WHERE winner LIKE 'Sir%'
 ORDER BY yr DESC, winner ASC;
 
-/* The expression subject IN ('chemistry','physics') can be used as a value - it will be 0 or 1.
+/* 40. The expression subject IN ('chemistry','physics') can be used as a value - it will be 0 or 1.
 Show the 1984 winners and subject ordered by subject and winner name; but list chemistry and physics last */
 SELECT winner, subject
 FROM nobel
